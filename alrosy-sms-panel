@@ -1,0 +1,34 @@
+alrosy-sms-panel/
+├── app/
+│   ├── __init__.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── user.py
+│   │   ├── sms.py
+│   │   ├── activity.py
+│   │   └── developer.py
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── main.py
+│   │   ├── admin.py
+│   │   ├── api.py
+│   │   └── developer.py
+│   ├── templates/
+│   │   ├── base.html
+│   │   ├── auth/
+│   │   │   └── login.html
+│   │   ├── main/
+│   │   │   └── dashboard.html
+│   │   └── admin/
+│   │       └── dashboard.html
+│   └── static/
+│       ├── css/
+│       ├── js/
+│       └── uploads/
+├── config.py
+├── run.py
+├── requirements.txt
+├── Procfile
+├── runtime.txt
+└── .gitignore
