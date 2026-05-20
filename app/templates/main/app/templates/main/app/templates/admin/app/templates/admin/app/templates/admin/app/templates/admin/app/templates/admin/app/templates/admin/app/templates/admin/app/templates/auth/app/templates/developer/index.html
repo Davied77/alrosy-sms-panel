@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <h3 class="mb-4">Developer CMS</h3>
+    
+    <div class="card">
+        <h5>Upload Static Page</h5>
+        <form method="POST" action="{{ url_for('developer.upload') }}" enctype="multipart/form-data">
+            <input type="file" name="file" class="form-control mb-3">
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+    </div>
+    
+    <div class="card mt-3">
+        <h5>Uploaded Pages</h5>
+        <div class="table-responsive">
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Slug</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for asset in assets %}
+                    <tr>
+                        <td>{{ asset.name }}</td>
+                        <td>{{ asset.slug }}</td>
+                        <td>
+                            {% if asset.is_published %}
+                            <span class="badge bg-success">Published</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Draft</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
