@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Login - ALROSY SMS{% endblock %}
+{% block content %}
+<div class="login-page" style="margin-left: 0;">
+    <div class="login-box">
+        <div class="login-header">
+            <div class="welcome">Welcome 3m3k</div>
+            <h2>ALROSY</h2>
+            <p class="text-muted">Sign in to your account</p>
+        </div>
+
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label text-secondary">👤 Username</label>
+                <input type="text" name="username" class="form-control" placeholder="Enter username" required autofocus>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label text-secondary">🔒 Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+            </div>
+
+            <div class="captcha-box">
+                <label class="form-label text-secondary">🔐 Security Check</label>
+                <div class="mb-2">
+                    <span>{{ captcha_num1 }} + {{ captcha_num2 }} = ?</span>
+                </div>
+                <input type="number" name="captcha_answer" class="form-control" style="width: 80px; margin: 0 auto;" placeholder="?" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2">
+                <i class="bi bi-box-arrow-in-right"></i> Sign In
+            </button>
+        </form>
+
+        <p class="text-center mt-3">
+            <a href="{{ url_for('auth.register') }}" class="text-muted">Create an account</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
