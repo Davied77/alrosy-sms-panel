@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}SMS Ranges{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <h3 class="mb-4">🌍 All SMS Ranges</h3>
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr><th>Name</th><th>Country</th><th>Prefix</th><th>Available</th><th>Total</th><th>Price</th></tr>
+                </thead>
+                <tbody>
+                    {% for r in ranges %}
+                    <tr>
+                        <td><strong>{{ r.name }}</strong></td>
+                        <td>{{ r.country }}</td>
+                        <td><code>{{ r.prefix }}</code></td>
+                        <td><span class="badge bg-success">{{ r.get_available_count() }}</span></td>
+                        <td>{{ r.total_numbers }}</td>
+                        <td>${{ "%.3f"|format(r.price) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
