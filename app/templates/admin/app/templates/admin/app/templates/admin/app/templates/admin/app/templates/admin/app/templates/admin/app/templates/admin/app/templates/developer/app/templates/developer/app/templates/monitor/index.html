@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}SMS Monitor{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <h3 class="mb-4">🖥️ SMS Monitor</h3>
+    <div class="card"><h5>Live Monitoring</h5><p id="monitorStatus">Loading...</p></div>
+</div>
+<script>
+fetch('{{ url_for("monitor.get_status") }}').then(r=>r.json()).then(d=>{
+    document.getElementById('monitorStatus').innerHTML = '<span class="badge bg-success">Active</span> Last Check: '+d.last_check+'<br>Recent: '+d.recent_messages.length+' messages';
+});
+</script>
+{% endblock %}
