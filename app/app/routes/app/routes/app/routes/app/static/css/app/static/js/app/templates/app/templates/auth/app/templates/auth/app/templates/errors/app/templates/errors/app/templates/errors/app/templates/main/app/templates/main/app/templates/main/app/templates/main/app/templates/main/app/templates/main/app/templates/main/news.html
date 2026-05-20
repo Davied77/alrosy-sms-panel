@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}News{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <h3 class="mb-4">📢 News & Announcements</h3>
+    {% for n in news_list %}
+    <div class="card mb-3">
+        <h5>{{ n.title }}</h5>
+        <p>{{ n.content }}</p>
+        <small class="text-muted">{{ n.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+    </div>
+    {% else %}
+    <div class="card"><p class="text-center text-muted">No news yet</p></div>
+    {% endfor %}
+</div>
+{% endblock %}
