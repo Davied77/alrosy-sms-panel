@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}All CDR Reports{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <h3 class="mb-4">📋 All SMS CDR</h3>
+    <div class="card"><div class="table-responsive"><table class="table table-dark table-hover">
+        <thead><tr><th>ID</th><th>User</th><th>Sender</th><th>Recipient</th><th>Message</th><th>Status</th><th>Date</th></tr></thead>
+        <tbody>
+            {% for r in records %}
+            <tr><td>{{ r.id }}</td><td>{{ r.user.username if r.user else 'N/A' }}</td><td>{{ r.sender }}</td><td>{{ r.recipient }}</td><td>{{ r.message[:25] }}...</td><td>{{ r.status }}</td><td>{{ r.created_at.strftime('%m/%d %H:%M') }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table></div></div>
+</div>
+{% endblock %}
