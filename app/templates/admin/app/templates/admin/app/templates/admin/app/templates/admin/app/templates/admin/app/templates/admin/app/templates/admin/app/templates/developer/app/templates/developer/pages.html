@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Pages{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <h3 class="mb-4">📄 Landing Pages</h3>
+    <div class="row">
+        {% for a in assets %}
+        <div class="col-md-4 mb-3"><div class="card"><h5>{{ a.name }}</h5><p>Slug: {{ a.slug }}</p><a href="{{ url_for('developer.page_view', slug=a.slug) }}" class="btn btn-sm btn-info" target="_blank">Preview</a></div></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
