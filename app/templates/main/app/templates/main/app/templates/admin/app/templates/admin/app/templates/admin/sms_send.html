@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-fluid">
+    <h3 class="mb-4">Send Bulk SMS</h3>
+    
+    <div class="card">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Sender ID</label>
+                <input type="text" name="sender" class="form-control" value="ALROSY">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Recipients (one per line)</label>
+                <textarea name="recipients" class="form-control" rows="5" placeholder="+1234567890&#10;+0987654321" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Message</label>
+                <textarea name="message" class="form-control" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send"></i> Send SMS
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
