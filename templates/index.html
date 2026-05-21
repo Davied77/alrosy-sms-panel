@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALROSY SMS Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root{--bg:#0f1117;--card:#1a1d27;--side:#13151d;--inp:#1e2130;--ac:#00d4aa;--tx:#e4e6eb;--tx2:#9ca3af;--bd:#2a2d37}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+        .sidebar{position:fixed;left:0;top:0;bottom:0;width:260px;background:var(--side);border-right:1px solid var(--bd);overflow-y:auto;z-index:1000}
+        .side-h{padding:20px;text-align:center;border-bottom:1px solid var(--bd)}
+        .side-h h4{background:linear-gradient(135deg,#00d4aa,#00b894);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+        .nav-sec{padding:12px 20px 5px;font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;opacity:.7}
+        .nav-link{display:flex;align-items:center;padding:10px 20px;color:var(--tx2);text-decoration:none;font-size:13px;border-left:3px solid transparent;transition:.2s}
+        .nav-link:hover,.nav-link.active{background:rgba(0,212,170,.08);color:var(--ac);border-left-color:var(--ac)}
+        .nav-link i{margin-right:10px;width:20px;text-align:center}
+        .main{margin-left:260px;padding:30px;min-height:100vh}
+        .card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:20px}
+        .stat-card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px;cursor:pointer;transition:.3s}
+        .stat-card:hover{transform:translateY(-4px);border-color:var(--ac)}
+        .stat-icon{font-size:32px;margin-bottom:12px}
+        .card-title{color:var(--tx2);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:600}
+        .card-value{font-size:32px;font-weight:700}
+        .table{color:var(--tx)}.table th{border-color:var(--bd);color:var(--tx2);font-size:11px;text-transform:uppercase}.table td{border-color:var(--bd);vertical-align:middle}
+        .badge{padding:6px 12px;border-radius:20px;font-weight:500}
+        .btn-primary{background:var(--ac);border-color:var(--ac);color:#0f1117;font-weight:600;border-radius:8px}
+        .btn-primary:hover{background:#00b894;border-color:#00b894;transform:translateY(-2px)}
+        .form-control,.form-select{background:var(--inp);border:1px solid var(--bd);color:var(--tx);border-radius:8px;padding:10px 15px}
+        .form-control:focus{background:var(--inp);border-color:var(--ac);box-shadow:0 0 0 3px rgba(0,212,170,.1);color:var(--tx)}
+        .login-page{display:flex;justify-content:center;align-items:center;min-height:100vh;background:linear-gradient(135deg,#0f1117,#1a1d27)}
+        .login-box{background:var(--card);border-radius:20px;padding:45px 40px;width:100%;max-width:430px;box-shadow:0 30px 60px rgba(0,0,0,.5);border:1px solid var(--bd)}
+        .login-header{text-align:center;margin-bottom:35px}
+        .login-header .welcome{font-size:12px;color:var(--ac);letter-spacing:3px;text-transform:uppercase;font-weight:600}
+        .login-header h2{background:linear-gradient(135deg,#00d4aa,#00b894);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700;font-size:30px;margin:8px 0}
+        .captcha-box{background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:15px;margin-bottom:20px;text-align:center}
+        .captcha-box span{font-size:22px;font-weight:700;letter-spacing:3px;color:var(--ac)}
+        .modal-content{background:var(--card);border:1px solid var(--bd);border-radius:16px}
+        .modal-header{border-bottom:1px solid var(--bd)}.modal-footer{border-top:1px solid var(--bd)}
+        @media(max-width:768px){.sidebar{width:100%;position:relative;height:auto}.main{margin-left:0}}
+    </style>
+</head>
+<body>
+    {% if current_user.is_authenticated %}
+    <div class="sidebar">
+        <div class="side-h"><h4>⚡ ALROSY SMS</h4><small class="text-muted">{{current_user.username}} | {{current_user.role.value}}</small></div>
+        <nav class="sidebar-nav">
+            <div class="nav-sec">📊 Dashboard</div>
+            <a href="{{url_for('dashboard')}}" class="nav-link {{'active' if request.endpoint=='dashboard'}}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <div class="nav-sec">📱 SMS Ranges</div>
+            <a href="{{url_for('ranges')}}" class="nav-link"><i class="bi bi-diagram-3"></i> All Ranges</a>
+            <a href="{{url_for('cdr')}}" class="nav-link"><i class="bi bi-receipt"></i> CDR Reports</a>
+            <div class="nav-sec">👥 Clients</div>
+            <a href="{{url_for('clients')}}" class="nav-link"><i class="bi bi-people"></i> Manage Clients</a>
+            <div class="nav-sec">📞 My Numbers</div>
+            <a href="{{url_for('my_numbers')}}" class="nav-link"><i class="bi bi-phone"></i> My Numbers</a>
+            <a href="{{url_for('test_sms')}}" class="nav-link"><i class="bi bi-send"></i> Test SMS</a>
+            <div class="nav-sec">📈 Stats</div>
+            <a href="{{url_for('cdr')}}" class="nav-link"><i class="bi bi-bar-chart"></i> SMS Stats</a>
+            <a href="{{url_for('activity')}}" class="nav-link"><i class="bi bi-activity"></i> Activity Log</a>
+            {% if current_user.is_admin() %}
+            <div class="nav-sec">🛡️ Admin</div>
+            <a href="{{url_for('admin')}}" class="nav-link"><i class="bi bi-shield-lock"></i> Admin Dashboard</a>
+            <a href="{{url_for('admin_users')}}" class="nav-link"><i class="bi bi-people-fill"></i> Users</a>
+            <a href="{{url_for('admin_numbers')}}" class="nav-link"><i class="bi bi-sim"></i> Numbers</a>
+            <a href="{{url_for('admin_ranges')}}" class="nav-link"><i class="bi bi-grid"></i> Ranges</a>
+            <a href="{{url_for('admin_send')}}" class="nav-link"><i class="bi bi-send-plus"></i> Send Bulk</a>
+            <a href="{{url_for('admin_news')}}" class="nav-link"><i class="bi bi-newspaper"></i> News</a>
+            <a href="{{url_for('admin_logs')}}" class="nav-link"><i class="bi bi-list-check"></i> Logs</a>
+            {% endif %}
+            <div class="nav-sec">📋 Other</div>
+            <a href="{{url_for('news_page')}}" class="nav-link"><i class="bi bi-megaphone"></i> News</a>
+            <a href="{{url_for('profile')}}" class="nav-link"><i class="bi bi-person-gear"></i> Profile</a>
+            <a href="{{url_for('logout')}}" class="nav-link text-danger"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </nav>
+    </div>
+    {% endif %}
+    <div class="main">
+        {% with m=get_flashed_messages(with_categories=true) %}{% if m %}{% for c,msg in m %}<div class="alert alert-{{c}} alert-dismissible fade show">{{msg}}<button class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}{% endif %}{% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
